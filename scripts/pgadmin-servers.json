@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "AutoCare Local",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "autocare",
+      "Username": "autocare",
+      "PassFile": "/tmp/pgpassfile",
+      "SSLMode": "prefer"
+    }
+  }
+}

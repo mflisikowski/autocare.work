@@ -6,7 +6,11 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "generate:types": "turbo generate:types"
+    "generate:types": "turbo generate:types",
+    "db:up": "docker-compose up -d postgres pgadmin",
+    "db:down": "docker-compose down",
+    "db:reset": "docker-compose down -v && docker-compose up -d postgres pgadmin",
+    "db:logs": "docker-compose logs -f postgres"
   },
   "devDependencies": {
     "@turbo/gen": "^1.13.4",

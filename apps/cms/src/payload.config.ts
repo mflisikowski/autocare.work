@@ -1,6 +1,6 @@
 import { buildConfig } from 'payload/config'
 import { webpackBundler } from '@payloadcms/bundler-webpack'
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { slateEditor } from '@payloadcms/richtext-slate'
 import path from 'path'
 
@@ -28,7 +28,9 @@ export default buildConfig({
   graphQL: {
     schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
   },
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI || 'mongodb://localhost:27017/autocare',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI || 'postgres://autocare:password123@localhost:5432/autocare',
+    },
   }),
 })

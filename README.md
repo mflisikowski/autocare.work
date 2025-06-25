@@ -18,7 +18,7 @@ A modern automotive care application built with **Next.js 15**, **PayloadCMS**, 
 - **Backend/CMS**: PayloadCMS
 - **UI**: ShadCN/UI, Radix UI, Tailwind CSS
 - **Build System**: Turborepo
-- **Database**: MongoDB
+- **Database**: PostgreSQL
 - **Language**: TypeScript
 
 ## Project Structure
@@ -40,7 +40,7 @@ packages/
 
 - Node.js 18+
 - pnpm
-- MongoDB
+- Docker & Docker Compose (for local database)
 
 ### Installation
 
@@ -62,9 +62,13 @@ packages/
    cp apps/cms/.env.example apps/cms/.env
    ```
 
-4. **Start MongoDB:**
+4. **Start PostgreSQL with Docker:**
    ```bash
-   # Make sure MongoDB is running locally or update DATABASE_URI in apps/cms/.env
+   # Using Makefile (recommended)
+   make db-up
+   
+   # Or using Docker Compose directly
+   docker-compose up -d postgres pgadmin
    ```
 
 5. **Generate PayloadCMS types:**
@@ -74,20 +78,53 @@ packages/
 
 6. **Start development servers:**
    ```bash
+   # Using Makefile (starts database + apps)
+   make dev
+   
+   # Or manually
    pnpm dev
    ```
 
 This will start:
 - Next.js app at [http://localhost:3000](http://localhost:3000)
 - PayloadCMS admin at [http://localhost:3001/admin](http://localhost:3001/admin)
+- PgAdmin at [http://localhost:5050](http://localhost:5050) (admin@autocare.local / admin123)
+- PostgreSQL at localhost:5432 (autocare / password123)
 
 ## Available Scripts
 
+### Using Makefile (Recommended)
+```bash
+# Development
+make dev          # Start all services (database + apps)
+make build        # Build all applications
+make stop         # Stop all services
+
+# Database Management
+make db-up        # Start PostgreSQL and PgAdmin
+make db-down      # Stop database services
+make db-reset     # Reset database (⚠️ destroys all data)
+make db-backup    # Create database backup
+make db-logs      # Show database logs
+
+# Utilities
+make install      # Install dependencies
+make types        # Generate PayloadCMS types
+make help         # Show all available commands
+```
+
+### Using pnpm directly
 ```bash
 # Development
 pnpm dev          # Start all applications in development mode
 pnpm build        # Build all applications
 pnpm lint         # Lint all packages
+
+# Database
+pnpm db:up        # Start PostgreSQL and PgAdmin
+pnpm db:down      # Stop database services
+pnpm db:reset     # Reset database
+pnpm db:logs      # Show database logs
 
 # PayloadCMS specific
 pnpm generate:types  # Generate TypeScript types from PayloadCMS schema
@@ -126,6 +163,53 @@ pnpm generate:types  # Generate TypeScript types from PayloadCMS schema
 ### Media
 - Image uploads and management
 - Optimized sizes for different use cases
+
+## Database Setup
+
+### Local Development with Docker
+
+The project uses PostgreSQL with Docker Compose for local development:
+
+```bash
+# Start database services
+make db-up
+
+# View database in PgAdmin
+open http://localhost:5050
+# Login: admin@autocare.local / admin123
+
+# Connect to database directly
+psql postgres://autocare:password123@localhost:5432/autocare
+```
+
+### Database Credentials
+
+- **Database**: autocare
+- **User**: autocare
+- **Password**: password123
+- **Host**: localhost
+- **Port**: 5432
+
+### Backup & Restore
+
+```bash
+# Create backup
+make db-backup
+
+# Reset database (⚠️ destroys data)
+make db-reset
+```
+
+### Production Setup
+
+For production, update the `DATABASE_URI` in your environment:
+
+```bash
+DATABASE_URI=postgres://user:password@your-db-host:5432/autocare
+```
+
+📖 **[Detailed Database Documentation](docs/DATABASE.md)**
+🍎 **[macOS Quick Start Guide](docs/QUICK_START_MACOS.md)**
 
 ## Contributing
 
