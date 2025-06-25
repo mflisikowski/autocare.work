@@ -1,0 +1,21 @@
+{
+  "name": "autocare-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "generate:types": "turbo generate:types"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.13.4",
+    "prettier": "^3.0.0",
+    "turbo": "^1.13.4",
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "pnpm@8.15.6",
+  "engines": {
+    "node": ">=18"
+  }
+}
